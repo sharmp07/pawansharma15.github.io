@@ -1,0 +1,67 @@
+<html>
+
+  <head>
+    <title>Automate Me - Level 2</title>
+  </head>
+
+  <body bgcolor=pink id="body">
+
+    <script>
+      function fn(){alert(document.getElementById("pressButton").value);};
+      function sudoFn(){fn()};
+      document.getElementById("body").onload = function (){
+        var body = document.getElementById("body");
+        var depth = Math.floor(Math.random() * 50) + 1;
+        var el = depth % 2 ? recCb(depth, cb) : recCb(depth, ci);
+        body.appendChild(rd(el, depth));
+      };
+      function recCb(depth, elementCreateFn, element){
+        depth--;
+        var hidden = 1 == depth ? false : true;
+        if(depth > 0){
+          var el = elementCreateFn(hidden);
+          element ? el.appendChild(element) : null;
+          return recCb(depth, elementCreateFn, el);
+        };
+        return element;
+      };
+      function cb(hidden){
+        var el = document.createElement("button");
+        el.setAttribute("type", "button");
+        el.setAttribute("onclick", "fn()");
+        el.appendChild(document.createTextNode("Click Me"));
+        hidden ? el.setAttribute("hidden", "true") : null;
+        return el;
+      };
+      function ci(hidden){
+        var random = Math.floor(Math.random() * 10000);
+        var el = document.createElement("input");
+        el.setAttribute("type", "submit");
+        el.setAttribute("onclick", "sudoFn()");
+        el.setAttribute("id", random);
+        el.setAttribute("value", "Submit");
+        hidden ? el.setAttribute("hidden", "true") : null;
+        return el;
+      };
+      function rd(element, depth){
+        depth--;
+        if(depth > 0){
+          var div = document.createElement("div");
+          div.setAttribute("id", depth.toString());
+          div.appendChild(element);
+          return rd(div, depth);
+        };
+        return element;
+      };
+    </script>
+
+    <div onload="boot()">Automate Me</div>
+    <input type="text" id="pressButton"></input>
+    <button type="button" onclick="fn()" hidden></button>
+    <button type="button" onclick="sudoFn()" hidden></button>
+    <input type="submit" value="Submit" onclick="fn()" hidden></input>
+    <input type="submit" value="Submit" onclick="sudoFn()" hidden></input>
+
+  </body>
+
+</html>

@@ -1,0 +1,49 @@
+<html>
+
+  <head>
+    <title>Automate Me - Level 1</title>
+  </head>
+
+  <body bgcolor=pink id="body">
+
+    <script>
+      function fn(){alert(document.getElementById("pressButton").value);};
+      document.getElementById("body").onload = function (){
+        var body = document.getElementById("body");
+        var random = Math.floor(Math.random() * 10000);
+        var depth = Math.floor(Math.random() * 50);
+        if(random % 2){
+          var el = document.createElement("button");
+          el.setAttribute("type", "button");
+          el.setAttribute("onclick", "fn()");
+          el.appendChild(document.createTextNode("Click Me"));
+        } else {
+          var el = document.createElement("input");
+          el.setAttribute("type", "submit");
+          el.setAttribute("value", "Submit");
+          el.setAttribute("onclick", "fn()");
+          el.setAttribute("id", random);
+        };
+        body.appendChild(rd(el, depth));
+      };
+      function rd(element, depth){
+        depth--;
+        if(depth > 0){
+          var div = document.createElement("div");
+          div.setAttribute("id", depth.toString());
+          div.appendChild(element);
+          return rd(div, depth);
+        };
+        return element;
+      };
+    </script>
+
+    <div onload="boot()">Automate Me</div>
+    <input type="text" id="pressButton">
+
+    <button type="button" onclick="fn()" hidden></button>
+    <input type="submit" value="Submit" onclick="fn()" hidden></input>
+
+  </body>
+
+</html>
